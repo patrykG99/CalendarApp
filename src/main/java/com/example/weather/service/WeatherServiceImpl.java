@@ -13,11 +13,12 @@ import java.net.http.HttpResponse;
 public class WeatherServiceImpl implements WeatherService{
     @Value("${apiKey}")
     private String key;
-    @Override
-    public String getWeatherData() throws IOException, InterruptedException {
 
+
+    @Override
+    public String getWeatherData(String city) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://weatherapi-com.p.rapidapi.com/current.json?q=53.1%2C-0.13"))
+                .uri(URI.create("https://weatherapi-com.p.rapidapi.com/forecast.json?q=" + city + "&days=3"))
                 .header("X-RapidAPI-Key", key)
                 .header("X-RapidAPI-Host", "weatherapi-com.p.rapidapi.com")
                 .method("GET", HttpRequest.BodyPublishers.noBody())

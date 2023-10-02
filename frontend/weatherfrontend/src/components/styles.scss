@@ -1,0 +1,18 @@
+html, body { height: 100%; width: 100%; margin: 0; }
+
+.dayCard {
+    width: 10%;
+    height: 20%;
+    margin:1%;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+.calendar{
+    display: flex;
+    height: 80vh;
+    flex-wrap: wrap;
+    justify-content: center;
+
+
+}
+

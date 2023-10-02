@@ -1,5 +1,6 @@
 import React, {Component, useEffect, useState} from "react";
 import * as events from "events";
+import Calendar from "./calendar.component";
 
 
 
@@ -14,6 +15,7 @@ export default function Options(){
 
     const [inputValue, setInputValue] = useState("");
     const [suggestions, setSuggestions] = useState([]);
+
 
 
 
@@ -61,28 +63,26 @@ export default function Options(){
 
 
     return (
-        <>
-            <form onSubmit={getWeather}>
-                <label>Location</label>
-                <input onChange={(e) => suggestLocation(e.target.value)} value={inputValue} />
-                <div id={"suggestions"}>
-                    {suggestions.map((suggestion, index) => (
+        <div>
+            <input
+                value={inputValue}
+                onInput={(e) => suggestLocation(e.target.value)}
+            />
+            <div>
+                {suggestions.map((suggestion, index) => (
                     <div
                         key={index}
                         onClick={() => handleClick(suggestion.name)}
-
+                        // Tu możesz dodać dodatkowe style lub klasy
                     >
                         {suggestion.name}
                     </div>
-                ))}</div>
-                <button type={"submit"}></button>
+                ))}
+            </div>
+            <div>
 
-
-
-
-
-            </form>
-        </>
+            </div>
+        </div>
     );
 }
 
