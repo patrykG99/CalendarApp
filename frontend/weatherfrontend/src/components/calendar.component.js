@@ -47,8 +47,10 @@ const Calendar = () => {
             let actualWeather =await response.json()
             setWeather(actualWeather)
             setHasLoaded(true)
+
         }
         fetchData();
+
 
 
 
@@ -57,14 +59,15 @@ const Calendar = () => {
     const getWeatherForDay = (day, month, year) =>{
         const allDays = weather.forecast.forecastday;
 
+
         const found = allDays.find(w => {
             const [wYear,wMonth,wDay] = w.date.split('-').map(Number)
             return wDay === day && wMonth === month && wYear === year
 
 
         })
-        console.log(found)
-        return found ? found.day.maxtemp_c : null
+
+        return found ? "max " + found.day.maxtemp_c + " °C"  : null
 
     }
 
@@ -81,8 +84,14 @@ const Calendar = () => {
                             data-day={day}
                             data-month={currentMonth}
                             onClick={handleDayClick}
+                            style={{display:'flex'}}
                         >
-                            {day}, {getDayName(day, currentMonth, currentYear)},{<div>{getWeatherForDay(day, currentMonth + 1, currentYear)}</div>}
+                            <div style={{width:'50%'}}>{day}, {getDayName(day, currentMonth, currentYear)}</div>
+                            <div style={{width:'50%', float:'right'}}>{getWeatherForDay(day, currentMonth + 1, currentYear)}</div>
+
+
+
+
                         </div>
                     ))}
                 </div>
