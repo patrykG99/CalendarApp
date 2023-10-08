@@ -14,6 +14,7 @@ const Calendar = () => {
     const [date, setDate] = useState(new Date());
     const [weather, setWeather] = useState('')
     const [hasLoaded, setHasLoaded] = useState(false)
+    const [notes, setNotes] = useState([])
 
     const currentMonth = date.getMonth();
     const currentYear = date.getFullYear();
@@ -22,10 +23,14 @@ const Calendar = () => {
 
     const daysOfMonth = Array.from({length: daysInMonth}, (_, i) => i + 1);
 
+
+
+
     const handleDayClick = (event) => {
         const clickedDay = event.currentTarget.getAttribute('data-day');
         const clickedMonth = event.currentTarget.getAttribute('data-month');
         console.log(`Kliknięto dzień: ${clickedDay}, miesiąc: ${clickedMonth}`);
+
     };
 
     const handleNextMonth = () => {
@@ -39,12 +44,16 @@ const Calendar = () => {
     useEffect(() => {
         async function fetchData() {
             const url = `http://localhost:8080/api/weatherData/Bydgoszcz`
+            const urlNotes = `http://localhost:8080/api/notes`
             const options = {
                 method: 'GET'
             }
             let response = await fetch(url, options)
+            let responseNotes = await fetch(urlNotes, options)
             let actualWeather = await response.json()
+            let actualNotes = await responseNotes.json()
             setWeather(actualWeather)
+            setNotes(actualNotes)
             setHasLoaded(true)
 
         }
@@ -56,18 +65,45 @@ const Calendar = () => {
 
     const getWeatherForDay = (day, month, year) => {
         const allDays = weather.forecast.forecastday;
-
-
+        const dateW = `${year}-${month}-${day}`;
         const found = allDays.find(w => {
             const [wYear, wMonth, wDay] = w.date.split('-').map(Number)
             return wDay === day && wMonth === month && wYear === year
-
-
         })
-
         return found ? "max " + found.day.maxtemp_c + " °C" : null
-
     }
+
+
+    const addNote = async (event,day,month,year) => {
+        let dateNote = year + "-" + month + "-" + day
+        let noteContent = "test"
+        const newNote = {
+            dateNote,
+            noteContent,
+        };
+        console.log(newNote)
+        try{
+            const url = 'http://localhost:8080/api/note'
+            const requestOptions = {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json' },
+                body: JSON.stringify(newNote)
+            };
+            fetch(url, requestOptions)}
+        catch (error){
+            console.error(error)
+        }
+
+    };
+    const getNotesForDay = (day, month, year) => {
+        const dateStr = `${year}-${month}-${day}`;
+        const notesForDay = notes.filter(note => note.dateNote === dateStr);
+        return notesForDay.map((note, index) => <div key={index}>{note.noteContent}</div>);
+    };
+
+
+
+
 
 
     return (
@@ -76,11 +112,13 @@ const Calendar = () => {
             {hasLoaded ? <>
                 <div className={"calendar"}>
                     {daysOfMonth.map((day, index) => (
+
                         <div
                             key={index}
                             className="dayCard"
                             data-day={day}
                             data-month={currentMonth}
+                            data-year={currentYear}
                             onClick={handleDayClick}
                             style={{display: 'flex'}}
                         >
@@ -92,10 +130,11 @@ const Calendar = () => {
                                 }}>{getWeatherForDay(day, currentMonth + 1, currentYear)}</div>
                             </div>
                             <div className={"cardContent"}>
-                                <div className={"addNote"}>
+                                <div className={"addNote"} onClick={(e) => addNote(e, day, currentMonth + 1, currentYear)}>
                                     +
 
                                 </div>
+                                <div>{getNotesForDay(day, currentMonth + 1, currentYear)}</div>
 
 
                             </div>
