@@ -10,10 +10,9 @@ const getDayName = (day, month, year) => {
 };
 
 
-
 const Calendar = () => {
     const [date, setDate] = useState(new Date());
-    const [weather,setWeather] = useState('')
+    const [weather, setWeather] = useState('')
     const [hasLoaded, setHasLoaded] = useState(false)
 
     const currentMonth = date.getMonth();
@@ -21,7 +20,7 @@ const Calendar = () => {
     const currentDay = date.getDate();
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
-    const daysOfMonth = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+    const daysOfMonth = Array.from({length: daysInMonth}, (_, i) => i + 1);
 
     const handleDayClick = (event) => {
         const clickedDay = event.currentTarget.getAttribute('data-day');
@@ -43,31 +42,30 @@ const Calendar = () => {
             const options = {
                 method: 'GET'
             }
-            let response = await fetch(url,options)
-            let actualWeather =await response.json()
+            let response = await fetch(url, options)
+            let actualWeather = await response.json()
             setWeather(actualWeather)
             setHasLoaded(true)
 
         }
+
         fetchData();
-
-
 
 
     }, []);
 
-    const getWeatherForDay = (day, month, year) =>{
+    const getWeatherForDay = (day, month, year) => {
         const allDays = weather.forecast.forecastday;
 
 
         const found = allDays.find(w => {
-            const [wYear,wMonth,wDay] = w.date.split('-').map(Number)
+            const [wYear, wMonth, wDay] = w.date.split('-').map(Number)
             return wDay === day && wMonth === month && wYear === year
 
 
         })
 
-        return found ? "max " + found.day.maxtemp_c + " °C"  : null
+        return found ? "max " + found.day.maxtemp_c + " °C" : null
 
     }
 
@@ -84,20 +82,33 @@ const Calendar = () => {
                             data-day={day}
                             data-month={currentMonth}
                             onClick={handleDayClick}
-                            style={{display:'flex'}}
+                            style={{display: 'flex'}}
                         >
-                            <div style={{width:'50%'}}>{day}, {getDayName(day, currentMonth, currentYear)}</div>
-                            <div style={{width:'50%', float:'right'}}>{getWeatherForDay(day, currentMonth + 1, currentYear)}</div>
+                            <div className={"header"}>
+                                <div style={{width: '50%'}}>{day}, {getDayName(day, currentMonth, currentYear)}</div>
+                                <div style={{
+                                    width: '50%',
+                                    float: 'right'
+                                }}>{getWeatherForDay(day, currentMonth + 1, currentYear)}</div>
+                            </div>
+                            <div className={"cardContent"}>
+                                <div className={"addNote"}>
+                                    +
+
+                                </div>
 
 
+                            </div>
 
 
                         </div>
                     ))}
                 </div>
-                <div><button onClick={handlePrevMonth}>Poprzedni</button>
-                    <button onClick={handleNextMonth}>Następny</button></div>
-            </>:null}
+                <div>
+                    <button onClick={handlePrevMonth}>Poprzedni</button>
+                    <button onClick={handleNextMonth}>Następny</button>
+                </div>
+            </> : null}
 
         </>
     );

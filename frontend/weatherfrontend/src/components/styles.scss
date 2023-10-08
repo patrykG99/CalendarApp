@@ -6,6 +6,11 @@ html, body { height: 100%; width: 100%; margin: 0; }
     margin:1%;
     text-align: center;
     border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-direction: column;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.1)
+
 }
 .calendar{
     display: flex;
@@ -14,5 +19,37 @@ html, body { height: 100%; width: 100%; margin: 0; }
     justify-content: center;
 
 
+
+}
+.header{
+    background-color: #61dafb;
+    height: 10%;
+    width: 100% ;
+    display: flex;
+    overflow: hidden;
+    padding: 1%;
+}
+.cardContent{
+    height: 90%;
+    width: 100%;
+    margin-top: 5%;
+
+}
+
+
+
+.addNote{
+    width: 80%;
+    margin: auto;
+
+    border-radius: 10px;
+    background-color: aliceblue ;
+    transition: transform 0.3s ease;
+}
+.addNote:hover{
+    border: 2px solid lightblue;
+    background-color: aliceblue;
+    transform: translateY(2px);
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.1)
 }
 
