@@ -34,6 +34,11 @@ public class NoteController {
     public ResponseEntity<Note> addNote(@RequestBody Note newNote){
         return ResponseEntity.status(HttpStatus.CREATED).body(noteService.addNote(newNote));
     }
+    @DeleteMapping("/note/{id}")
+    public ResponseEntity<Void> deleteNote(@PathVariable("id") Long noteId){
+        noteService.deleteNote(noteId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 
 

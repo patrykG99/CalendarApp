@@ -8,4 +8,5 @@ import java.util.List;
 public interface NoteService {
     public List<Note> getNotes();
     public Note addNote(Note newNote);
+    public void deleteNote(Long noteId);
 }

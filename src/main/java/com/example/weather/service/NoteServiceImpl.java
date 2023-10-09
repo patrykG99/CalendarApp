@@ -3,7 +3,7 @@ package com.example.weather.service;
 import com.example.weather.Repository.NoteRepo;
 import com.example.weather.model.Note;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +25,11 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public Note addNote(Note newNote) {
         return noteRepo.save(newNote);
+    }
+
+    @Override
+    public void deleteNote(Long noteId) {
+        noteRepo.deleteById(noteId);
     }
 
 

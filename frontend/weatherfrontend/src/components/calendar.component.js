@@ -89,16 +89,48 @@ const Calendar = () => {
                 headers: {'Content-Type': 'application/json' },
                 body: JSON.stringify(newNote)
             };
-            fetch(url, requestOptions)}
+            const response = await fetch(url, requestOptions)
+            if (response.ok) {
+                const newNoteServer = await response.json();
+                setNotes([...notes, newNoteServer]);
+            }
+
+
+        }
+
         catch (error){
             console.error(error)
         }
 
     };
+
+    const removeNote = async (noteId) => {
+
+        try{
+            const url = 'http://localhost:8080/api/note/' + noteId
+            const requestOptions = {
+                method: 'DELETE',
+
+
+            };
+            const response = await fetch(url, requestOptions)
+            if (response.ok) {
+                const newNotes = notes.filter(note => note.noteId !== noteId);
+                setNotes(newNotes);
+            }
+
+        }
+
+
+        catch (error){
+            console.error(error)
+        }
+
+    }
     const getNotesForDay = (day, month, year) => {
         const dateStr = `${year}-${month}-${day}`;
         const notesForDay = notes.filter(note => note.dateNote === dateStr);
-        return notesForDay.map((note, index) => <div key={index}>{note.noteContent}</div>);
+        return notesForDay.map((note, index) => <div className={"oneNote"}><div style={{width:"90%"}} key={index}>{note.noteContent}</div><div className={"buttonStyle"} style={{width:"10%",textAlign:"right"}}><button onClick={()=>{removeNote(note.noteId)}}>x</button></div></div>);
     };
 
 
@@ -134,7 +166,10 @@ const Calendar = () => {
                                     +
 
                                 </div>
-                                <div>{getNotesForDay(day, currentMonth + 1, currentYear)}</div>
+                                <div className={"notes"}>
+
+
+                                    {getNotesForDay(day, currentMonth + 1, currentYear)}</div>
 
 
                             </div>
