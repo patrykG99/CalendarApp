@@ -15,6 +15,8 @@ const Calendar = () => {
     const [weather, setWeather] = useState('')
     const [hasLoaded, setHasLoaded] = useState(false)
     const [notes, setNotes] = useState([])
+    const [selectedDays, setSelectedDays] = useState([])
+    const [noteContents, setNoteContents] = useState({});
 
     const currentMonth = date.getMonth();
     const currentYear = date.getFullYear();
@@ -26,11 +28,17 @@ const Calendar = () => {
 
 
 
-    const handleDayClick = (event) => {
-        const clickedDay = event.currentTarget.getAttribute('data-day');
-        const clickedMonth = event.currentTarget.getAttribute('data-month');
-        console.log(`Kliknięto dzień: ${clickedDay}, miesiąc: ${clickedMonth}`);
+    const handleDayClick = (dayClicked) => {
+        console.log(dayClicked)
+        if (selectedDays.includes(dayClicked)) {
+            setSelectedDays(selectedDays.filter(day => day !== dayClicked));
+        } else {
+            setSelectedDays([...selectedDays, dayClicked]);
+        }
+    };
 
+    const handleTextAreaChange = (e, day) => {
+        setNoteContents({ ...noteContents, [day]: e.target.value });
     };
 
     const handleNextMonth = () => {
@@ -74,9 +82,9 @@ const Calendar = () => {
     }
 
 
-    const addNote = async (event,day,month,year) => {
+    const addNote = async (event,day,month,year,noteContent) => {
         let dateNote = year + "-" + month + "-" + day
-        let noteContent = "test"
+
         const newNote = {
             dateNote,
             noteContent,
@@ -93,6 +101,8 @@ const Calendar = () => {
             if (response.ok) {
                 const newNoteServer = await response.json();
                 setNotes([...notes, newNoteServer]);
+                setSelectedDays(selectedDays.filter(daySel => daySel !== day));
+
             }
 
 
@@ -103,6 +113,10 @@ const Calendar = () => {
         }
 
     };
+    const cancelNote = (day) =>{
+        setSelectedDays(selectedDays.filter(daySel => daySel !== day));
+        noteContents[day] = ""
+    }
 
     const removeNote = async (noteId) => {
 
@@ -151,7 +165,7 @@ const Calendar = () => {
                             data-day={day}
                             data-month={currentMonth}
                             data-year={currentYear}
-                            onClick={handleDayClick}
+
                             style={{display: 'flex'}}
                         >
                             <div className={"header"}>
@@ -162,10 +176,16 @@ const Calendar = () => {
                                 }}>{getWeatherForDay(day, currentMonth + 1, currentYear)}</div>
                             </div>
                             <div className={"cardContent"}>
-                                <div className={"addNote"} onClick={(e) => addNote(e, day, currentMonth + 1, currentYear)}>
+                                <div className={"addNote"} onClick={()=>handleDayClick(day)}>
                                     +
 
                                 </div>
+                                {selectedDays.includes(day) ?<div><textarea
+                                    value={noteContents[day] || ""}
+                                    onChange={(e) => handleTextAreaChange(e, day)}
+                                /><button className={"buttonNote"} onClick={(e) => addNote(e, day, currentMonth + 1, currentYear,noteContents[day])}>✅</button>
+                                    <button className={"buttonNote"} onClick={()=>cancelNote(day)}>❌</button></div>:null}
+
                                 <div className={"notes"}>
 
 
