@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import "./styles.scss"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPencil} from "@fortawesome/free-solid-svg-icons";
+
 
 const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
 
@@ -177,14 +180,14 @@ const Calendar = () => {
                             </div>
                             <div className={"cardContent"}>
                                 <div className={"addNote"} onClick={()=>handleDayClick(day)}>
-                                    +
+                                    <FontAwesomeIcon icon={faPencil} />
 
                                 </div>
-                                {selectedDays.includes(day) ?<div><textarea
+                                {selectedDays.includes(day) ?<div><textarea className={"noteTextarea"}
                                     value={noteContents[day] || ""}
                                     onChange={(e) => handleTextAreaChange(e, day)}
-                                /><button className={"buttonNote"} onClick={(e) => addNote(e, day, currentMonth + 1, currentYear,noteContents[day])}>✅</button>
-                                    <button className={"buttonNote"} onClick={()=>cancelNote(day)}>❌</button></div>:null}
+                                /><div><button className={"buttonNote"} onClick={(e) => addNote(e, day, currentMonth + 1, currentYear,noteContents[day])}>✅</button>
+                                    <button className={"buttonNote"} onClick={()=>cancelNote(day)}>❌</button></div></div>:null}
 
                                 <div className={"notes"}>
 
