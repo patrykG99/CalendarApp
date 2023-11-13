@@ -1,4 +1,5 @@
-html, body { height: 100%; width: 100%; margin: 0;background-color: #A2D5F2 }
+html, body { height: 100%; width: 100%; margin: 0;background-color: #002e8d
+}
 
 .dayCard {
     width: 10%;
@@ -9,8 +10,8 @@ html, body { height: 100%; width: 100%; margin: 0;background-color: #A2D5F2 }
     border-radius: 10px;
     overflow: hidden;
     flex-direction: column;
-    box-shadow: 0px 10px 18px rgba(0,0,0,0.1);
-    background-color: #D9AFFF;
+    box-shadow: 0px 10px 18px rgba(0,0,0,0.3);
+    background-color: #A2D5F2;
 
 
 }
@@ -53,7 +54,7 @@ html, body { height: 100%; width: 100%; margin: 0;background-color: #A2D5F2 }
     border: 2px solid lightblue;
     background-color: #d0d0bb;
     transform: translateY(2px);
-    box-shadow: 0px 4px 8px rgba(0,0,0,0.1)
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1)
 }
 .notes{
 
@@ -91,15 +92,34 @@ html, body { height: 100%; width: 100%; margin: 0;background-color: #A2D5F2 }
 
 }
 .noteTextarea{
-    width: 80%;  /* pełna szerokość kontenera */
-    border: none;  /* usunięcie domyślnej ramki */
-    border-radius: 6px;  /* zaokrąglenie krawędzi */
-    padding: 10px;  /* wewnętrzny odstęp */
-    margin-bottom: 10px;  /* odstęp od przycisków */
+    width: 80%;
+    border: none;
+    border-radius: 6px;
+    padding: 10px;
     resize: none;
-    margin-left: auto;  /* automatyczny margines po lewej stronie */
-    margin-right: auto;
-    margin-top:5px
+    margin: 5px auto 10px;
+}
+
+.buttonChangeMonth{
+    background: bisque;
+    border: none;
+    margin: 10px;
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 10px;
+    box-shadow: 0 10px 18px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease ;
+
+
+
+}
+.buttonChangeMonth:active{
+    transform: translateY(2px);
+    box-shadow: 0 10px 18px rgba(0,0,0,0.2);
+
+}
+.monthHeader{
+    color: white;
 }
 
 

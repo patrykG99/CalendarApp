@@ -157,7 +157,7 @@ const Calendar = () => {
 
     return (
         <>
-            <div><h2>{months[currentMonth]}</h2></div>
+            <div><h1 className={"monthHeader"}>{months[currentMonth]}</h1></div>
             {hasLoaded ? <>
                 <div className={"calendar"}>
                     {daysOfMonth.map((day, index) => (
@@ -202,8 +202,8 @@ const Calendar = () => {
                     ))}
                 </div>
                 <div>
-                    <button onClick={handlePrevMonth}>Poprzedni</button>
-                    <button onClick={handleNextMonth}>Następny</button>
+                    <button className={"buttonChangeMonth"} onClick={handlePrevMonth}>Poprzedni</button>
+                    <button className={"buttonChangeMonth"} onClick={handleNextMonth}>Następny</button>
                 </div>
             </> : null}
 
